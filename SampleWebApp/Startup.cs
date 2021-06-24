@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SampleWebApp.Data;
 
 namespace SampleWebApp
 {
@@ -24,6 +26,37 @@ namespace SampleWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            AddDbContext(services);
+           
+        }
+        private void AddDbContext(IServiceCollection services)
+        {
+            string databaseTech = Configuration.GetValue<string>("DatabaseTech");
+
+            switch (databaseTech)
+            {
+                case "InMemory":
+                    AddDbContextInMemory(services);
+                    break;
+                case "NpgSql":
+                    AddDbContextNpgSql(services);
+                    break;
+                default:
+                    throw new ArgumentException($"Configuration value DatabaseTech is invalid: {databaseTech}. Must be InMemory or NpgSql");
+            }
+        }
+
+        private void AddDbContextInMemory(IServiceCollection services)
+        {
+
+            services.AddDbContext<SampleWebAppContext>(options =>
+                    options.UseInMemoryDatabase($"SampleWebApp"));
+        }
+
+        private void AddDbContextNpgSql(IServiceCollection services)
+        {
+            services.AddDbContext<SampleWebAppContext>(options =>
+                   options.UseNpgsql(Configuration.GetConnectionString("SampleWebAppContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
