@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: psqlclient
+spec:
+  selector:
+    matchLabels:
+      app: psqlclient
+  template:
+    metadata:
+      labels:
+        app: psqlclient
+    spec:
+      containers:
+        - name: psqlclient
+          image: postgres
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "0.25"
+            limits:
+              memory: "1000Mi"
+              cpu: "1"
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "verysecret"
