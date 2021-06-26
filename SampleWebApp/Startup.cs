@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SampleWebApp.Data;
+using Microsoft.Extensions.Logging;
 
 namespace SampleWebApp
 {
@@ -55,13 +56,21 @@ namespace SampleWebApp
 
         private void AddDbContextNpgSql(IServiceCollection services)
         {
+            string connectionString = Configuration.GetConnectionString("SampleWebAppContext");
+
             services.AddDbContext<SampleWebAppContext>(options =>
-                   options.UseNpgsql(Configuration.GetConnectionString("SampleWebAppContext")));
+                   options.UseNpgsql(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+            string databaseTech = Configuration.GetValue<string>("DatabaseTech");
+            logger.LogInformation("DatabaseTech: {0}", databaseTech);
+
+            string connectionString = Configuration.GetConnectionString("SampleWebAppContext");
+            logger.LogInformation("ConnectionString: {0}", connectionString);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
