@@ -1,3 +1,7 @@
 resources:
 - deployment.yaml
 - psqlclientpod.yaml
+configMapGenerator:
+  - name: sqlinitscript
+    files:
+      - "script.sql"

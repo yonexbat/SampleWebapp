@@ -11,6 +11,10 @@ spec:
       labels:
         app: sampleapp
     spec:
+      volumes:
+        - name: initscript
+          configMap:
+            name: sqlinitscript
       containers:
         - name: sampleapp
           image: claudeglauser/sample-webapp:latest
@@ -38,3 +42,7 @@ spec:
           env:
             - name: POSTGRES_PASSWORD
               value: "verysecret"
+          volumeMounts:
+            - mountPath: /docker-entrypoint-initdb.d
+              name: initscript
+          
