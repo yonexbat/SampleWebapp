@@ -65,6 +65,9 @@ namespace SampleWebApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
+            string pathBase = Configuration.GetValue<string>("PathBase");
+            app.UsePathBase($"/{pathBase}");
+
             string databaseTech = Configuration.GetValue<string>("DatabaseTech");
             logger.LogInformation("DatabaseTech: {0}", databaseTech);
 
@@ -93,7 +96,7 @@ namespace SampleWebApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+            });           
         }
     }
 }
