@@ -17,7 +17,7 @@ spec:
             name: sqlinitscript
       containers:
         - name: sampleapp
-          image: claudeglauser/sample-webapp:1.0.0
+          image: claudeglauser/sample-webapp:latest
           resources:
             requests:
               memory: "100Mi"
