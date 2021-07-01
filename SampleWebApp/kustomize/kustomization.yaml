@@ -1,6 +1,8 @@
 resources:
 - deployment.yaml
 - psqlclientpod.yaml
+- service.yaml
+- ingress.yaml
 configMapGenerator:
   - name: sqlinitscript
     files:

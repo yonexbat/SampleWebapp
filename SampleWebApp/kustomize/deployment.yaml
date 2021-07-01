@@ -30,6 +30,8 @@ spec:
               value: "Server=localhost;Port=5432;Database=test;User Id=postgres;Password=verysecret"
             - name: DatabaseTech
               value: "NpgSql"
+            - name: PathBase
+              value: abc
         - name: postgresql
           image: postgres
           resources:

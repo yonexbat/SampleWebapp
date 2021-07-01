@@ -67,6 +67,7 @@ namespace SampleWebApp
         {
             string pathBase = Configuration.GetValue<string>("PathBase");
             app.UsePathBase($"/{pathBase}");
+            logger.LogInformation("PathBase: {0}", pathBase);
 
             string databaseTech = Configuration.GetValue<string>("DatabaseTech");
             logger.LogInformation("DatabaseTech: {0}", databaseTech);
